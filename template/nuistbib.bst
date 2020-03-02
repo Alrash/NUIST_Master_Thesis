@@ -927,7 +927,8 @@ FUNCTION {inproceedings}
   format.authors "author" output.check
   new.block
   % format.title "[C]. " * title output.check
-  format.title "title" output.check
+  format.btitle ". " * title output.check
+  % format.title "title" output.check
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.noperiodcheck
@@ -1012,7 +1013,8 @@ FUNCTION {mastersthesis}
   format.authors "author" add.period$ output.check
   new.block
   % format.title remove.dots ": " * masterthesis.type * output
-  format.title remove.dots masterthesis.type * output
+  % format.title remove.dots masterthesis.type * output
+  format.title remove.dots output
   new.block
   format.address.school output
   %format.madd "address" output.check
@@ -1050,7 +1052,8 @@ FUNCTION {phdthesis}
   format.authors "author" add.period$ output.check
   new.block
   % format.title remove.dots ": " * phdthesis.type * output
-  format.title remove.dots phdthesis.type * output
+  % format.title remove.dots phdthesis.type * output
+  format.title remove.dots output
   new.block
   format.address.school output
   %address output
@@ -1069,7 +1072,8 @@ FUNCTION {proceedings}
   if$
   new.block
   % format.btitle "[C]" * title output.check
-  format.btitle "title" output.check
+  format.btitle ". " * title output.check
+  % format.btitle "title" output.check
   format.bvolume output
   format.number.series output
   address empty$

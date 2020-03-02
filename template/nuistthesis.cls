@@ -19,8 +19,9 @@
 
 % 设置默认字体
 \RequirePackage{xeCJK}
-\setCJKmainfont[AutoFakeBold = 2]{SimSun}          % 设置默认中文字体
-\setmainfont{Times New Roman}                      % 设置默认英文字体
+\RequirePackage{times}
+\setCJKmainfont[AutoFakeBold = 2, AutoFakeSlant=true]{SimSun}    % 设置默认中文字体
+\setmainfont{Times New Roman}                                    % 设置默认英文字体
 \setCJKfamilyfont{song}{SimSun}
 \setCJKfamilyfont{hei}{SimHei}
 \setCJKfamilyfont{kai}{KaiTi_GB2312}
@@ -71,9 +72,28 @@
         beforeskip = 0.4em,
         afterskip = 0.2em,
     },
+    subsubsection = {
+        format = {\zihao{-4} \songti \it},
+        name ={},
+        number = \Alph{subsubsection},
+        aftername = {.\hspace{0.5em}},
+        beforeskip = 0.1em,
+        afterskip = 0.1em,
+    },
     appendix = {
         name = {附\quad 录},
     }
+}
+
+% 修正正文中ref{subsubsection}
+% 格式化形式为thesubsection-thesubsubsection
+\renewcommand\p@subsubsection{\thesubsection-}
+% 用于提取subsubsection子节号 -- 慎用
+\def\@firstoftwo@second#1#2#3#4#5{%
+  \def\temp##1-##2\@nil{##2}%
+   \temp#1\@nil}
+\newcommand\subsecref[1]{%
+   \expandafter\@setref\csname r@#1\endcsname\@firstoftwo@second{#1}%
 }
 
 
@@ -94,15 +114,24 @@
     \renewcommand{\footrulewidth}{0pt}
 }
 
+% 设置参考文献间距
+\RequirePackage[numbers, sort, compress]{natbib}
+\setlength{\bibsep}{0.5em}
 
 % 设置图表
 \RequirePackage{booktabs}
-\RequirePackage{caption3}
-\renewcommand{\captionfont}{\zihao{5} \bf}
-\renewcommand{\captionlabelfont}{}
-\setlength\abovecaptionskip{8pt}                          % 图表标题上方的空白距离
-\setlength\belowcaptionskip{6pt}                          % 图表标题下方的空白距离
+\RequirePackage{caption}
+\DeclareCaptionFont{capFont}{\zihao{5}\songti}
+\DeclareCaptionLabelSeparator{newlabelsep}{~~}
 \newcommand{\ftfonts}{\zihao{-5}}                         % 定义图表内容文字大小
+% 修正float体三种边距
+\setlength{\floatsep}{0.8em plus 0.2em minus 0.3em}
+\setlength{\textfloatsep}{0.6em plus 0.1em minus 0.4em}
+\setlength{\intextsep}{0.6em}
+% 修正caption间距及字体大小
+\captionsetup{belowskip = 0bp, aboveskip = 0bp, font = {capFont},  labelsep = {newlabelsep}, figurename = 图, tablename = 表}
+\captionsetup[figure]{position = bottom, aboveskip = 2pt}
+\captionsetup[table]{position = top, aboveskip = 4pt}
 
 % 设置公式环境
 % thanks from https://github.com/alwintsui/scutthesis/blob/master/scutthesis.cls
@@ -147,17 +176,26 @@
 
 \renewenvironment{proof}{\vskip 1pt\indent \itshape 证明:~\normalfont}{\hfill$\square$\vskip 0.01\baselineskip} %$\blacksquare$
 
-
+% 修正公式周围的空行
+% 修改公式标号
 \renewcommand{\theequation}{\thechapter-\arabic{equation}}
+
+%修正公式显示（分数，\sum）
+\everymath{\displaystyle}
 
 
 % 设置目录
-\RequirePackage{subfigure}
+% \RequirePackage[normal]{subfigure}
+\RequirePackage{subfig}
 \RequirePackage[subfigure, titles]{tocloft}
 % \RequirePackage{titletoc}
 \renewcommand{\cftchapleader}{\cftdotfill{\cftchapdotsep}}
 \renewcommand{\cftchapdotsep}{\cftdotsep}
 \setcounter{tocdepth}{2}                       % 目录的深度，2 表示到 subsection
+\setcounter{secnumdepth}{3}                    % 到subsubsection显示节号
+
+% 提供subfigure
+\let\subfigure\subfloat
 
 % 目录图表
 \newlength\tablelen
@@ -177,7 +215,22 @@
 \providecommand{\charspace}{\hspace{1em}}
 \providecommand{\delimitercn}{，}
 \providecommand{\delimiteren}{,~}
-\providecommand{\addreferencetoctl}{\addcontentsline{toc}{chapter}{参考文献}}
+\providecommand{\addreferencetoctl}{
+    \clearpage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{参考文献}
+}
+
+\providecommand{\appendixchapter}{
+    \chapter*{附{\quad}录\markboth{附{\quad}录}{}}
+    \addcontentsline{toc}{chapter}{附{\quad}录}
+}
+
+\providecommand{\appendixrenewenv}{
+    \renewcommand{\thesection}{\arabic{section}}
+    \renewcommand{\theequation}{A-\arabic{equation}}
+    \renewcommand\p@section{附录-}
+}
 
 % 章节末成果部分
 % ==== 默认可选参数 ====
@@ -188,9 +241,9 @@
 \providecommand{\material}[2][]{
     \setkeys{chapterlistmaterial}{#1}
         
-    \vspace{\clm@vspace}
+    \vspace{\clm@vspace plus 0.5em minus 1em}
     \noindent \clm@title：
-    
+        
     #2
 }
 
@@ -279,7 +332,7 @@
         \linespread{1.5}
     
         \pagestyle{empty}                            % 封面页面样式
-        
+                
         % 封面正体 
         \ifnuistthesisblindtrial
             % 盲审论文封面
@@ -536,7 +589,7 @@
         \tocloftpagestyle{fancy}
         \tableofcontents
         \clearpage
-        
+                
         % 插图索引
         \clearpage
         \listoffigures
