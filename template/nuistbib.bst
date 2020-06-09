@@ -297,7 +297,7 @@ FUNCTION {bbl.etal}
 { "et~al." }
 
 FUNCTION {bbl.cn.etal}
-{ "等." }
+{ "?." }
 
 FUNCTION {format.lang}
 { lang empty$
@@ -792,8 +792,8 @@ FUNCTION {book}
     }
   if$
   new.block
-  % format.btitle "[M]" * title output.check
-  format.btitle "title" output.check
+  format.btitle "[M]" * title output.check
+  %format.btitle "title" output.check
   crossref missing$
     { format.bvolume output
       new.block
@@ -821,8 +821,8 @@ FUNCTION {article}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  % format.title "[J]" * title output.check
-  format.title "title" output.check
+  format.title "[J]" * title output.check
+  %format.title "title" output.check
   new.block
   crossref missing$
     { %journal emphasize "journal" output.check
@@ -830,11 +830,15 @@ FUNCTION {article}
       %format.date "year" output.check
       %new.block
       year output
-      format.vol.num.pages output.year
+      % format.vol.num.pages output.year
     }
     { format.article.crossref output.nonnull
-      format.pages output
+      % format.pages output
     }
+  if$
+  pages empty$
+    {remove.dots}
+    {format.vol.num.pages output.year}
   if$
   new.block
   format.note output
@@ -867,8 +871,8 @@ FUNCTION {inbook}
     }
   if$
   new.block
-  % format.btitle "[M]" * title output.check
-  format.btitle "title" output.check
+  format.btitle "[M]" * title output.check
+  %format.btitle "title" output.check
   crossref missing$
     { format.bvolume output
       %format.chapter.pages "chapter and pages" output.check
@@ -896,8 +900,8 @@ FUNCTION {incollection}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  % format.title "[M]. " * title output.check
-  format.title "title" output.check
+  format.title "[M]. " * title output.check
+  %format.title "title" output.check
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.check
@@ -926,13 +930,12 @@ FUNCTION {inproceedings}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  % format.title "[C]. " * title output.check
-  format.btitle ". " * title output.check
-  % format.title "title" output.check
+  format.title "[C]. " * title output.check
+  %format.title "title" output.check
   new.block
   crossref missing$
     { format.in.ed.booktitle "booktitle" output.noperiodcheck
-      format.bvolume output
+      %format.bvolume output
       %format.number.series output
       %format.pages output
       address empty$
@@ -940,7 +943,7 @@ FUNCTION {inproceedings}
       organization output
       publisher output
       %format.date "year" output.check
-      year output
+      %year output
     }
     { %address output.nonnull
       format.address.publisher output
@@ -952,7 +955,9 @@ FUNCTION {inproceedings}
     }
       if$
       new.block
+      year output
       format.pages output
+      %format.vol.num.pages output.year
       %remove.dots
     }
     { format.incoll.inproc.crossref output.nonnull
@@ -979,8 +984,8 @@ FUNCTION {manual}
     { format.authors output.nonnull }
   if$
   new.block
-  % format.btitle "[M]" * title output.check
-  format.btitle "title" output.check
+  format.btitle "[M]" * title output.check
+  %format.btitle "title" output.check
   author empty$
     { organization empty$
     { address new.block.checka
@@ -1001,7 +1006,7 @@ FUNCTION {manual}
   fin.entry
 }
 
-FUNCTION {masterthesis.type}
+FUNCTION {mastersthesis.type}
 { lang empty$
     { "[D]" }
     { "\thumasterbib" }
@@ -1012,9 +1017,9 @@ FUNCTION {mastersthesis}
 { output.bibitem
   format.authors "author" add.period$ output.check
   new.block
-  % format.title remove.dots ": " * masterthesis.type * output
-  % format.title remove.dots masterthesis.type * output
-  format.title remove.dots output
+  % format.title remove.dots ": " * mastersthesis.type * output
+  % format.title remove.dots mastersthesis.type * output
+  format.title remove.dots "[D]" * output
   new.block
   format.address.school output
   %format.madd "address" output.check
@@ -1053,7 +1058,7 @@ FUNCTION {phdthesis}
   new.block
   % format.title remove.dots ": " * phdthesis.type * output
   % format.title remove.dots phdthesis.type * output
-  format.title remove.dots output
+  format.title remove.dots "[D]" * output
   new.block
   format.address.school output
   %address output
@@ -1064,49 +1069,52 @@ FUNCTION {phdthesis}
   fin.entry
 }
 
-FUNCTION {proceedings}
-{ output.bibitem
-  editor empty$
-    { organization output }
-    { format.editors output.nonnull }
-  if$
-  new.block
-  % format.btitle "[C]" * title output.check
-  format.btitle ". " * title output.check
-  % format.btitle "title" output.check
-  format.bvolume output
-  format.number.series output
-  address empty$
-    { editor empty$
-    { publisher new.sentence.checka }
-    { organization publisher new.sentence.checkb
-      organization output
-    }
-      if$
-      publisher output
-      format.date "year" output.check
-    }
-    { address output.nonnull
-      format.date "year" output.check
-      new.sentence
-      editor empty$
-    'skip$
-    { organization output }
-      if$
-      publisher output
-    }
-  if$
-  new.block
-  note output
-  fin.entry
+FUNCTION {proceedings} {
+  inproceedings
 }
+
+%FUNCTION {proceedings}
+%{ output.bibitem
+%  editor empty$
+%    { organization output }
+%    { format.editors output.nonnull }
+%  if$
+%  new.block
+%  format.btitle "[C]" * title output.check
+%  %format.btitle "title" output.check
+%  format.bvolume output
+%  format.number.series output
+%  address empty$
+%    { editor empty$
+%    { publisher new.sentence.checka }
+%    { organization publisher new.sentence.checkb
+%      organization output
+%    }
+%      if$
+%      publisher output
+%      format.date "year" output.check
+%    }
+%    { address output.nonnull
+%      format.date "year" output.check
+%      new.sentence
+%      editor empty$
+%    'skip$
+%    { organization output }
+%      if$
+%      publisher output
+%    }
+%  if$
+%  new.block
+%  note output
+%  fin.entry
+%}
 
 FUNCTION {techreport}
 { output.bibitem
   format.authors "author" output.check
   new.block
-  % format.title "[R]" * title output.check
-  format.title "title" output.check
+  format.title "[R]" * title output.check
+  %format.title "title" output.check
   new.block
   format.tr.number output.nonnull
   institution "institution" output.check

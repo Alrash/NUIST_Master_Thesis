@@ -8,7 +8,7 @@
 
 % 设置页面大小
 \RequirePackage[a4paper]{geometry}
-\geometry{
+\geometry{%
     top = 2.5cm,
     bottom = 2.5cm,
     left = 2.5cm,
@@ -20,12 +20,24 @@
 % 设置默认字体
 \RequirePackage{xeCJK}
 \RequirePackage{times}
-\setCJKmainfont[AutoFakeBold = 2, AutoFakeSlant=true]{SimSun}    % 设置默认中文字体
+\IfFileExists{/dev/null}{%
+    % unix
+    \setCJKmainfont[
+        Path = /usr/share/fonts/noto-cjk/,
+        UprightFont = NotoSerifCJK-Regular.ttc,
+        BoldFont = NotoSerifCJK-Bold,
+        ItalicFont = NotoSerifCJK-Medium,
+        BoldItalicFont = NotoSerifCJK-Bold,
+    ]
+    {Noto Serif CJK SC}                                   % 设置默认英文字体
+}{%
+    \setCJKmainfont[AutoFakeBold = 2, AutoFakeSlant=true]{SimSun}    % 设置默认中文字体
+    \setCJKfamilyfont{song}{SimSun}
+    \setCJKfamilyfont{hei}{SimHei}
+    \setCJKfamilyfont{kai}{KaiTi_GB2312}
+    \setCJKfamilyfont{fang}{FangSong_GB2312}
+}
 \setmainfont{Times New Roman}                                    % 设置默认英文字体
-\setCJKfamilyfont{song}{SimSun}
-\setCJKfamilyfont{hei}{SimHei}
-\setCJKfamilyfont{kai}{KaiTi_GB2312}
-\setCJKfamilyfont{fang}{FangSong_GB2312}
 
 % \newcommand{\songti}{\CJKfamily{song}}
 % \newcommand{\heiti}{\CJKfamily{hei}}
@@ -43,20 +55,20 @@
 \RequirePackage[colorlinks, linkcolor = black, anchorcolor = black, citecolor = black]{hyperref}
 
 % 设置标题格式
-\ctexset {
+\ctexset {%
     contentsname = 目\quad 录,
     listfigurename = 插图索引,
     listtablename = 表格索引,
     bibname = 参考文献,
-    chapter = {
+    chapter = {%
         format = {\centering \zihao{3} \heiti},
         pagestyle = fancy,
         name = {第, 章},
-        number = \arabic{chapter},
+        number = \chinese{chapter}, % \arabic
         beforeskip = -20pt,
         afterskip = 10pt,
     },
-    section = {
+    section = {%
         format = {\zihao{4} \songti \bf},
         name = {},
         number = \thesection,
@@ -64,7 +76,7 @@
         beforeskip = 1em,
         afterskip = 0.5em,
     },
-    subsection = {
+    subsection = {%
         format = {\zihao{-4} \songti},
         name = {},
         number = \thesubsection,
@@ -72,7 +84,7 @@
         beforeskip = 0.4em,
         afterskip = 0.2em,
     },
-    subsubsection = {
+    subsubsection = {%
         format = {\zihao{-4} \songti \it},
         name ={},
         number = \Alph{subsubsection},
@@ -80,7 +92,7 @@
         beforeskip = 0.1em,
         afterskip = 0.1em,
     },
-    appendix = {
+    appendix = {%
         name = {附\quad 录},
     }
 }
@@ -106,7 +118,7 @@
 \fancyfoot[CO, CE]{\thepage}                      	      % 页码居中
 \pagenumbering{arabic}                     	              % 页码使用阿拉伯数字
 
-\fancypagestyle{plain}{
+\fancypagestyle{plain}{%
     \fancyhf{}
     \fancyhead{}
     \fancyfoot[CO, CE]{\Roman{\thepage}}
@@ -169,7 +181,7 @@
 \newtheorem{lemma}{引理~}[chapter]
 \newtheorem{theorem}{定理~}[chapter]
 \newtheorem{axiom}{公理~}[chapter]
-\newtheorem{corollary}{ 推论~}[chapter]
+\newtheorem{corollary}{推论~}[chapter]
 \newtheorem{case}{情形~}[chapter]
 \newtheorem{conjecture}{猜想~}[chapter]
 \newtheorem{property}{性质~}[chapter]
@@ -215,18 +227,22 @@
 \providecommand{\charspace}{\hspace{1em}}
 \providecommand{\delimitercn}{，}
 \providecommand{\delimiteren}{,~}
-\providecommand{\addreferencetoctl}{
+\providecommand{\addreferencetoctl}{%
     \clearpage
     \phantomsection
     \addcontentsline{toc}{chapter}{参考文献}
 }
 
-\providecommand{\appendixchapter}{
+\providecommand{\appendixtoc} {%
+    \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+}
+
+\providecommand{\appendixchapter}{%
     \chapter*{附{\quad}录\markboth{附{\quad}录}{}}
     \addcontentsline{toc}{chapter}{附{\quad}录}
 }
 
-\providecommand{\appendixrenewenv}{
+\providecommand{\appendixrenewenv}{%
     \renewcommand{\thesection}{\arabic{section}}
     \renewcommand{\theequation}{A-\arabic{equation}}
     \renewcommand\p@section{附录-}
@@ -238,7 +254,7 @@
 \define@key{chapterlistmaterial}{title}{\def\clm@title{#1}}
 \setkeys{chapterlistmaterial}{vspace = 1em, title = 本章部分内容出自以下论文}
 
-\providecommand{\material}[2][]{
+\providecommand{\material}[2][]{%
     \setkeys{chapterlistmaterial}{#1}
         
     \vspace{\clm@vspace plus 0.5em minus 1em}
@@ -298,7 +314,19 @@
 \newcommand{\nuistthesis@blindtrial}{}
 \providecommand{\blindtrial}[1]{\nuistthesisblindtrialtrue\renewcommand{\nuistthesis@blindtrial}{#1}}
 
-\setkeys{nuistthesis}{
+% \btstype 盲审封面2
+\newif\ifnuistthesisbtstyle\nuistthesisbtstylefalse
+\newcommand{\nuistthesis@btstyle}{}
+\providecommand{\btstyle}[1]{\nuistthesisbtstyletrue\renewcommand{\nuistthesis@btstyle}{#1}}
+
+% 封面背景色
+\definecolor{NuistCoverGreen}{rgb}{0.804, 0.914, 0.812}
+% \coverbcolor 启用封面背景色
+\newif\ifnuistthesiscoverbcolor\nuistthesiscoverbcolorfalse
+\newcommand{\nuistthesis@coverbcolor}{}
+\providecommand{\coverbcolor}[1]{\nuistthesiscoverbcolortrue\renewcommand{\nuistthesis@coverbcolor}{#1}}
+
+\setkeys{nuistthesis}{%
     title = 论文中文题目,
     titleen = Your English Title,
     name = 姓名,
@@ -319,36 +347,44 @@
 
 \providecommand{\nuistthesisset}[1]{\setkeys{nuistthesis}{#1}}
 
+\RequirePackage{pagecolor}
 \RequirePackage{multicol}
-\providecommand{\includefrontmatter}{
+\providecommand{\includefrontmatter}{%
     \setlength{\TPHorizModule}{1cm}  % textblock horiz length reference
     \setlength{\TPVertModule}{1cm}   % textblock verti length reference
 
     % 封面
     \frontmatter
         
-    \afterpage{
+    \afterpage{%
         \newgeometry{top = 2.2cm, bottom = 2.2cm, left = 2cm, right = 2cm}
         \linespread{1.5}
     
         \pagestyle{empty}                            % 封面页面样式
+        \ifnuistthesiscoverbcolor
+            \pagecolor{NuistCoverGreen}
+        \fi
                 
         % 封面正体 
         \ifnuistthesisblindtrial
             % 盲审论文封面
             \begin{titlepage}
                 % 封面头
-                \begin{multicols}{2}
-                    \begin{flushleft}
-                        \zihao{-4}{分\hspace{0.5em}类\hspace{0.5em}号：\underline{\hbox to 30mm{}}} \par
-                        \zihao{-4}{盲审编号：\underline{\hbox to 30mm{}}}
-                    \end{flushleft}
+                \ifnuistthesisbtstyle
+                    \begin{multicols}{2}
+                        \begin{flushleft}
+                            \zihao{-4}{分\hspace{0.5em}类\hspace{0.5em}号：\underline{\hbox to 30mm{}}} \par
+                            \zihao{-4}{盲审编号：\underline{\hbox to 30mm{}}}
+                        \end{flushleft}
             
-                    \begin{flushright}
-                        \zihao{-4}{UDC：\underline{\hbox to 30mm{}}} \par
-                        \zihao{-4}{密级：\underline{\hbox to 30mm{}}}
-                    \end{flushright}
-                \end{multicols}
+                        \begin{flushright}
+                            \zihao{-4}{UDC：\underline{\hbox to 30mm{}}} \par
+                            \zihao{-4}{密级：\underline{\hbox to 30mm{}}}
+                        \end{flushright}
+                    \end{multicols}
+                \else
+                    \zihao{5}{~}
+                \fi
                 
                 \begin{center}
                     \zihao{5}{~}
@@ -357,8 +393,19 @@
                     \includegraphics{logo/nuist}
                     
                     % 黑体35号“硕士学位论文”
-                    \linespread{1}
-                    \zihao{-0}{\heiti{硕士学位论文}}
+                    \ifnuistthesisbtstyle                    
+                        \linespread{1}
+                        \zihao{-0}{\heiti{硕士学位论文}}
+                    \else
+                        \linespread{1}
+                        \zihao{5}{~}
+                        
+                        \zihao{5}{~}
+                        
+                        \zihao{-0}{\heiti{硕士研究生学位论文}}
+                        
+                        \zihao{5}{~}                        
+                    \fi
                 
                     \zihao{5}{~}
         
@@ -422,13 +469,15 @@
                 
                     % 黑体35号“硕士学位论文”
                     \linespread{1}
-                    \zihao{-0}{\heiti{硕士学位论文}}
+                    \zihao{-0}{\heiti{硕士研究生学位论文}}
                 
+                    \zihao{5}{~} \\
                     \zihao{5}{~}
         
                     % logo
                     \includegraphics[width = 3.46cm, height = 3.46cm]{logo/nuist_logo}
             
+                    \zihao{5}{~} \\
                     \zihao{5}{~}
             
                     % 中文标题
@@ -440,7 +489,7 @@
                     \zihao{3}{\bfseries \nuistthesis@titleen}
             
                     \linespread{1}
-                    \begin{textblock}{13.2}(3, 17)
+                    \begin{textblock}{13.2}(3, 17.4)
                         \songti \zihao{-3}
                         \begin{tabular}{>{\raggedleft\arraybackslash}p{3.8cm}>{\centering\arraybackslash}p{7.5cm}}
                             申请人姓名：  & \nuistthesis@name \\ \clineB{2-2}{2} \specialrule{0em}{1.2em}{0pt}
@@ -468,6 +517,10 @@
                 \end{center}
             
             \end{titlepage}
+        \fi
+        
+        \ifnuistthesiscoverbcolor
+            \afterpage{\nopagecolor}
         \fi
     
         \ifnuistthesisprinter
@@ -520,10 +573,10 @@
 }
 
 % 摘要
-\providecommand{\abstract}[2]{
+\providecommand{\abstract}[2]{%
     \clearpage
     
-    \afterpage{
+    \afterpage{%
     
         \setcounter{page}{1}
     
@@ -544,8 +597,16 @@
         #1{}
         
         % 关键字部分
-        \vspace{1em}
-        \noindent \songti{关键词：} \nuistthesis@keywordscn
+        \begin{list}{\songti{关键词：}}{%
+            \edef\fix{\labelsep=\the\labelsep}
+            \settowidth\leftmargin{\songti{关键词：}} 
+            \itemindent=-\leftmargin 
+            \labelsep=0pt \labelwidth=0pt} 
+         \item\fix 
+         \begin{enumerate}[topsep = 1em minus 0.5em, leftmargin = 0pt, label = {}]
+             \item \nuistthesis@keywordscn
+         \end{enumerate}
+         \end{list}
         
         \clearpage
                 
@@ -558,9 +619,17 @@
         #2{}
         
         % 关键字部分
-        \vspace{1em}
-        \noindent {\bfseries Keywords:} \nuistthesis@keywordsen
-        
+        \begin{list}{{\bfseries Keywords:}}{%
+            \edef\fix{\labelsep=\the\labelsep}
+            \settowidth\leftmargin{{\bfseries Keywords:}} 
+            \itemindent=-\leftmargin 
+            \labelsep=0pt \labelwidth=0pt} 
+         \item\fix 
+         \begin{enumerate}[topsep = 1em minus 0.5em, leftmargin = 0.5em, label = {}]
+             \item \nuistthesis@keywordsen
+         \end{enumerate}
+         \end{list}
+                
         \ifnuistthesisprinter
             \cleardoublepage
         \else
@@ -571,10 +640,10 @@
 }
 
 
-\providecommand{\includelistpage}{
+\providecommand{\includelistpage}{%
     \clearpage
     
-    \afterpage{    
+    \afterpage{%
         \setcounter{page}{1}
     
         % 定义页眉格式格式
@@ -619,7 +688,14 @@
 	\pagenumbering{arabic}
 }
 
-\providecommand{\mainmatterstart}{
+
+\def\backmatter{%
+	\clearpage
+	\@mainmatterfalse
+    \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
+}
+
+\providecommand{\mainmatterstart}{%
     % 开始正文
     \mainmatter
 }
