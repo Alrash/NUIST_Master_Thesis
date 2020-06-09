@@ -14,6 +14,7 @@ template\
     |- nuistbib.bst             # 参考文献样式，修改自南航论文模板
     |- nuistthesis.cls          # 样式文件
     |- STZhongsong.ttf          # 封面标题字体文件（华文中宋；windows系统自带，无请下载）
+    |- contentsappend.txt       # contentsappend开启时，该部分内容附加至目录尾部
 ```
 
 ## 样例使用
@@ -33,6 +34,16 @@ windows系统：
 
 ## 版本日志
 
+> * v0.1.1
+> > 1. 修正关键字显示
+> > 2. 修正章节号格式
+> > 3. 修正书签显示
+> > 4. 修正参考文献格式
+> > 5. 增加appendixtoc命令，控制隐藏目录中附录section
+> > 6. 增加thankschapter命令，防止忘记取消盲审时致谢部分注释
+> > 7. 增加abstracttocontents命令，目录中显示摘要页码
+> > 8. 增加contentsappend命令，可在目录中显示附加信息，如缩写索引
+> > 9. ~~增加盲审时，material不显示的功能~~（不存在的，依旧会显示）
 > * v0.1
 > > 1. 修正图表上下间距
 > > 2. 修正参考文献格式及行间距
