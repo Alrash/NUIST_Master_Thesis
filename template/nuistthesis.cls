@@ -8,7 +8,7 @@
 
 % 设置页面大小
 \RequirePackage[a4paper]{geometry}
-\geometry{%
+\geometry{
     top = 2.5cm,
     bottom = 2.5cm,
     left = 2.5cm,
@@ -20,24 +20,12 @@
 % 设置默认字体
 \RequirePackage{xeCJK}
 \RequirePackage{times}
-\IfFileExists{/dev/null}{%
-    % unix
-    \setCJKmainfont[
-        Path = /usr/share/fonts/noto-cjk/,
-        UprightFont = NotoSerifCJK-Regular.ttc,
-        BoldFont = NotoSerifCJK-Bold,
-        ItalicFont = NotoSerifCJK-Medium,
-        BoldItalicFont = NotoSerifCJK-Bold,
-    ]
-    {Noto Serif CJK SC}                                   % 设置默认英文字体
-}{%
-    \setCJKmainfont[AutoFakeBold = 2, AutoFakeSlant=true]{SimSun}    % 设置默认中文字体
-    \setCJKfamilyfont{song}{SimSun}
-    \setCJKfamilyfont{hei}{SimHei}
-    \setCJKfamilyfont{kai}{KaiTi_GB2312}
-    \setCJKfamilyfont{fang}{FangSong_GB2312}
-}
+\setCJKmainfont[AutoFakeBold = 2, AutoFakeSlant=true]{SimSun}    % 设置默认中文字体
 \setmainfont{Times New Roman}                                    % 设置默认英文字体
+\setCJKfamilyfont{song}{SimSun}
+\setCJKfamilyfont{hei}{SimHei}
+\setCJKfamilyfont{kai}{KaiTi_GB2312}
+\setCJKfamilyfont{fang}{FangSong_GB2312}
 
 % \newcommand{\songti}{\CJKfamily{song}}
 % \newcommand{\heiti}{\CJKfamily{hei}}
@@ -52,15 +40,15 @@
 \RequirePackage{xcolor}
 % 设置超链接颜色为黑色
 % URL颜色依旧为红色，若想改变颜色，设置urlcolor=black
-\RequirePackage[colorlinks, linkcolor = black, anchorcolor = black, citecolor = black]{hyperref}
+\RequirePackage[colorlinks, linkcolor = black, anchorcolor = black, citecolor = black, bookmarksopen = true, ,bookmarksdepth = 4]{hyperref}
 
 % 设置标题格式
-\ctexset {%
+\ctexset {
     contentsname = 目\quad 录,
     listfigurename = 插图索引,
     listtablename = 表格索引,
     bibname = 参考文献,
-    chapter = {%
+    chapter = {
         format = {\centering \zihao{3} \heiti},
         pagestyle = fancy,
         name = {第, 章},
@@ -68,7 +56,7 @@
         beforeskip = -20pt,
         afterskip = 10pt,
     },
-    section = {%
+    section = {
         format = {\zihao{4} \songti \bf},
         name = {},
         number = \thesection,
@@ -76,7 +64,7 @@
         beforeskip = 1em,
         afterskip = 0.5em,
     },
-    subsection = {%
+    subsection = {
         format = {\zihao{-4} \songti},
         name = {},
         number = \thesubsection,
@@ -84,7 +72,7 @@
         beforeskip = 0.4em,
         afterskip = 0.2em,
     },
-    subsubsection = {%
+    subsubsection = {
         format = {\zihao{-4} \songti \it},
         name ={},
         number = \Alph{subsubsection},
@@ -92,7 +80,7 @@
         beforeskip = 0.1em,
         afterskip = 0.1em,
     },
-    appendix = {%
+    appendix = {
         name = {附\quad 录},
     }
 }
@@ -118,7 +106,7 @@
 \fancyfoot[CO, CE]{\thepage}                      	      % 页码居中
 \pagenumbering{arabic}                     	              % 页码使用阿拉伯数字
 
-\fancypagestyle{plain}{%
+\fancypagestyle{plain}{
     \fancyhf{}
     \fancyhead{}
     \fancyfoot[CO, CE]{\Roman{\thepage}}
@@ -181,7 +169,7 @@
 \newtheorem{lemma}{引理~}[chapter]
 \newtheorem{theorem}{定理~}[chapter]
 \newtheorem{axiom}{公理~}[chapter]
-\newtheorem{corollary}{推论~}[chapter]
+\newtheorem{corollary}{ 推论~}[chapter]
 \newtheorem{case}{情形~}[chapter]
 \newtheorem{conjecture}{猜想~}[chapter]
 \newtheorem{property}{性质~}[chapter]
@@ -227,22 +215,22 @@
 \providecommand{\charspace}{\hspace{1em}}
 \providecommand{\delimitercn}{，}
 \providecommand{\delimiteren}{,~}
-\providecommand{\addreferencetoctl}{%
+\providecommand{\addreferencetoctl}{
     \clearpage
     \phantomsection
     \addcontentsline{toc}{chapter}{参考文献}
 }
 
-\providecommand{\appendixtoc} {%
+\providecommand{\appendixtoc} {
     \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
 }
 
-\providecommand{\appendixchapter}{%
+\providecommand{\appendixchapter}{
     \chapter*{附{\quad}录\markboth{附{\quad}录}{}}
     \addcontentsline{toc}{chapter}{附{\quad}录}
 }
 
-\providecommand{\appendixrenewenv}{%
+\providecommand{\appendixrenewenv}{
     \renewcommand{\thesection}{\arabic{section}}
     \renewcommand{\theequation}{A-\arabic{equation}}
     \renewcommand\p@section{附录-}
@@ -254,7 +242,7 @@
 \define@key{chapterlistmaterial}{title}{\def\clm@title{#1}}
 \setkeys{chapterlistmaterial}{vspace = 1em, title = 本章部分内容出自以下论文}
 
-\providecommand{\material}[2][]{%
+\providecommand{\material}[2][]{
     \setkeys{chapterlistmaterial}{#1}
         
     \vspace{\clm@vspace plus 0.5em minus 1em}
@@ -326,7 +314,29 @@
 \newcommand{\nuistthesis@coverbcolor}{}
 \providecommand{\coverbcolor}[1]{\nuistthesiscoverbcolortrue\renewcommand{\nuistthesis@coverbcolor}{#1}}
 
-\setkeys{nuistthesis}{%
+% 摘要显示在目录
+\newif\ifnuistthesisabstracttocontents\nuistthesisabstracttocontentsfalse
+\newcommand{\nuistthesis@abstracttocontents}{}
+\providecommand{\abstracttocontents}[1]{\nuistthesisabstracttocontentstrue\renewcommand{\nuistthesis@abstracttocontents}{#1}}
+
+% 摘要显示在目录
+\newif\ifnuistthesiscontentsappend\nuistthesiscontentsappendfalse
+\newcommand{\nuistthesis@contentsappend}{}
+\providecommand{\contentsappend}[1]{\nuistthesiscontentsappendtrue\renewcommand{\nuistthesis@contentsappend}{#1}}
+
+% 致谢环境
+\providecommand{\thankschapter}[1]{
+    \ifnuistthesisblindtrial
+        \zihao{-4}
+    \else
+        \chapter{致{\quad}谢}
+                
+        #1{}
+    \fi
+        
+}
+
+\setkeys{nuistthesis}{
     title = 论文中文题目,
     titleen = Your English Title,
     name = 姓名,
@@ -349,14 +359,14 @@
 
 \RequirePackage{pagecolor}
 \RequirePackage{multicol}
-\providecommand{\includefrontmatter}{%
+\providecommand{\includefrontmatter}{
     \setlength{\TPHorizModule}{1cm}  % textblock horiz length reference
     \setlength{\TPVertModule}{1cm}   % textblock verti length reference
 
     % 封面
     \frontmatter
         
-    \afterpage{%
+    \afterpage{
         \newgeometry{top = 2.2cm, bottom = 2.2cm, left = 2cm, right = 2cm}
         \linespread{1.5}
     
@@ -572,11 +582,13 @@
     }
 }
 
+\RequirePackage{bookmark}
+\RequirePackage{lipsum}
 % 摘要
-\providecommand{\abstract}[2]{%
+\providecommand{\abstract}[2]{
     \clearpage
     
-    \afterpage{%
+    \afterpage{
     
         \setcounter{page}{1}
     
@@ -591,13 +603,19 @@
         % 标题
         \begin{center}
             \heiti{\zihao{-3}{摘\quad{}要}}
+            \ifnuistthesisabstracttocontents
+                \addcontentsline{toc}{chapter}{摘\quad{}要}
+            \else
+                \hypertarget{hereAbstractCN}{}
+                \bookmark[dest = hereAbstractCN, level = 1]{摘\quad{}要}
+            \fi
         \end{center}
         
         % 中文摘要正文内容
         #1{}
         
         % 关键字部分
-        \begin{list}{\songti{关键词：}}{%
+        \begin{list}{\songti{关键词：}}{
             \edef\fix{\labelsep=\the\labelsep}
             \settowidth\leftmargin{\songti{关键词：}} 
             \itemindent=-\leftmargin 
@@ -613,13 +631,19 @@
         % 标题
         \begin{center}
             \bfseries{\zihao{-3}{Abstract}}
+            \ifnuistthesisabstracttocontents
+                \addcontentsline{toc}{chapter}{Abstract}
+            \else
+                \hypertarget{hereAbstractEN}{}
+                \bookmark[dest = hereAbstractEN, level = 1]{Abstract}
+            \fi
         \end{center}
         
         % 英文摘要正文内容
         #2{}
         
         % 关键字部分
-        \begin{list}{{\bfseries Keywords:}}{%
+        \begin{list}{{\bfseries Keywords:}}{
             \edef\fix{\labelsep=\the\labelsep}
             \settowidth\leftmargin{{\bfseries Keywords:}} 
             \itemindent=-\leftmargin 
@@ -640,10 +664,10 @@
 }
 
 
-\providecommand{\includelistpage}{%
+\providecommand{\includelistpage}{
     \clearpage
     
-    \afterpage{%
+    \afterpage{    
         \setcounter{page}{1}
     
         % 定义页眉格式格式
@@ -654,19 +678,32 @@
         \fancyfoot[CO, CE]{\thepage}             	      % 页码居中
         \pagenumbering{Roman}                     	      % 页码使用大写罗马数字
         
-        % 目录        
+        % 目录
+        \hypertarget{hereContents}{}
+        \bookmark[dest = hereContents, level = 1]{目{\quad}录}
         \tocloftpagestyle{fancy}
         \tableofcontents
         \clearpage
                 
         % 插图索引
         \clearpage
+        % \hypertarget{hereFigures}{}
+        % \bookmark[dest = hereFigures, level = 1]{插图索引}
         \listoffigures
         \clearpage
         
         % 表格索引    
         \clearpage
+        % \hypertarget{hereTables}{}
+        % \bookmark[dest = hereTables, level = 1]{表格索引}
         \listoftables
+        
+        % 追加部分
+        \ifnuistthesiscontentsappend
+            \clearpage
+            \input{contentsappend}
+            \clearpage        
+        \fi
         
         \ifnuistthesisprinter
             \cleardoublepage
@@ -689,13 +726,13 @@
 }
 
 
-\def\backmatter{%
+\def\backmatter{
 	\clearpage
 	\@mainmatterfalse
     \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
 }
 
-\providecommand{\mainmatterstart}{%
+\providecommand{\mainmatterstart}{
     % 开始正文
     \mainmatter
 }
