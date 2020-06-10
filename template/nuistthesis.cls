@@ -169,7 +169,7 @@
 \newtheorem{lemma}{引理~}[chapter]
 \newtheorem{theorem}{定理~}[chapter]
 \newtheorem{axiom}{公理~}[chapter]
-\newtheorem{corollary}{ 推论~}[chapter]
+\newtheorem{corollary}{推论~}[chapter]
 \newtheorem{case}{情形~}[chapter]
 \newtheorem{conjecture}{猜想~}[chapter]
 \newtheorem{property}{性质~}[chapter]
@@ -319,7 +319,7 @@
 \newcommand{\nuistthesis@abstracttocontents}{}
 \providecommand{\abstracttocontents}[1]{\nuistthesisabstracttocontentstrue\renewcommand{\nuistthesis@abstracttocontents}{#1}}
 
-% 摘要显示在目录
+% 目录追加内容flag
 \newif\ifnuistthesiscontentsappend\nuistthesiscontentsappendfalse
 \newcommand{\nuistthesis@contentsappend}{}
 \providecommand{\contentsappend}[1]{\nuistthesiscontentsappendtrue\renewcommand{\nuistthesis@contentsappend}{#1}}
@@ -584,6 +584,8 @@
 
 \RequirePackage{bookmark}
 \RequirePackage{lipsum}
+\RequirePackage{enumerate}
+\RequirePackage{enumitem}
 % 摘要
 \providecommand{\abstract}[2]{
     \clearpage
