@@ -3,18 +3,22 @@
 % 导入包
 \usepackage{xcolor}
 \usepackage{enumerate}
+\usepackage{enumitem}                            % 调整list边距用
 \usepackage{url}
 \usepackage{listings}
 
+% \blindtrial \\
+% \btstyle
+
 % %%%% 变量定义 %%%%
 \nuistthesisset {
-    title = 南京信息工程大学硕士学位论文\LaTeX 模板,
+    title = 南京信息工程大学硕士学位论文{\LaTeX}模板,
     titleen = The \LaTeX Template for Master Thesis of Nanjing University of Information Science $\&$ Technology,
     name = Alrash,
     degree = 工学硕士,
     institute = 计算机与软件学院,    
-    keywordscn = 论文要求\delimitercn 样例模板,
-    keywordsen = standardization of writing\delimiteren latex template,
+    keywordscn = 论文要求{\delimitercn}样例模板,
+    keywordsen = standardization of writing{\delimiteren}latex template,
 }
 
 \begin{document}
@@ -54,13 +58,17 @@
 按文中出现的顺序列出直接引用的主要参考文献，注释可列在所在页下方。
 
 （1）作者简介主要包括本人简历、所从事的主要研究方向和取得的科研成果，要求语句精炼，硕士生字数应控制在1000字以内，博士生字数控制在2000字以内；
-（2）作者简介内容按照下列次序编排：
-基本情况，包括姓名、性别、年龄、籍贯或出生地等
+
+（2）作者简介内容按照下列次序编排： \\
+基本情况，包括姓名、性别、年龄、籍贯或出生地等 \\
 从大学开始的学习和工作简历（包括毕业学校、院系、专业、学习时间；工作的单位、职务和时段等）；
+
 （3）本阶段学位攻读期间课程学习情况，包括学习课程的门数、总学分数、学位课程学分数等；
-（4）参加研究课题（或工程设计）情况，包括课题名称、课题类别（属国家级、省部级、横向协作、子课题属那一级课题等）、研究时段、本人承担任务及完成情况；
-（5）研究生在学期间公开发表的学术论文目录和取得的其他学术成果清单（此部分单列，作为学位授予的参考条件）。学术论文包括期刊（杂志）论文和学术会议论文，其他学术成果包括学术专著、科技获奖成果、鉴定成果、专利、已完成的重要工程设计（或工程应用）项目等。该学术论文和成果清单需要经过导师认可的内容才可以列入；
-按照参考文献中论文或著作的著录格式依据时间顺序排列学术著作和成果，并按顺序列出全部作者名字；
+
+（4）参加研究课题（或工程设计）情况，包括课题名称、课题类别（属国家级、省部级、横向协作、子课题属那一级课题等）、研究时段、本人承担任务及完成情况； 
+
+（5）研究生在学期间公开发表的学术论文目录和取得的其他学术成果清单（此部分单列，作为学位授予的参考条件）。学术论文包括期刊（杂志）论文和学术会议论文，其他学术成果包括学术专著、科技获奖成果、鉴定成果、专利、已完成的重要工程设计（或工程应用）项目等。该学术论文和成果清单需要经过导师认可的内容才可以列入；按照参考文献中论文或著作的著录格式依据时间顺序排列学术著作和成果，并按顺序列出全部作者名字；
+
 （6）学术报告和非公开发表论文情况，以及研究生非在学期间发表的学术论文目录和取得的其他学术成果等。
 
 \section{附录}
@@ -93,7 +101,9 @@
 
 本模板在CTEX-Book的基础之上进行一定程度的排版，大部分格式为本人凭借《南京信息工程大学\hspace{1em}2019年学位论文格式及盲审格式》\cite{NUIST_thesis}及\textcolor{red}{\bfseries 个人感觉}进行排版，{\bfseries 可能}无法满足部分审核老师的需求，请注意。
 
-同时，本模板{\bfseries 仅在XeLaTex下测试}，\textcolor{red}{不能保证LuaLaTex排版}，请注意。
+同时，本模板{\bfseries 仅在XeLaTex下测试}，\textcolor{red}{不能保证LuaLaTex排版，同时需要较新的ctex包（winedt 10之前使用有问题）}，请注意。
+
+\emph{Linux与macOS请自行修改setCJKmainfont等字体}，\href{https://github.com/Alrash/NUIST_Master_Thesis/commit/2d3a8f87f851bca0390801666e175dcfbd8ca38e#diff-32916104d728632293a3e1b0532021c1R23-R39}{样例}。
 
 \section{封面说明}
 
@@ -160,12 +170,16 @@ git reset --hard HEAD^
         charspace & 提供一个中文字符的空格 & ftfonts & 修正表格内容字体、大小等 \\
         material & 章节成果展示区域 & addreferencetoctl & 将参考文献加入目录\\
         comentor & 封面显示合作导师 & printer & 为双面打印预留空白页 \\
-        blindtrial & 显示盲审封面（注意封面内容）\\
+        blindtrial & 显示盲审封面（注意封面内容）& btstyle & 与blindtrial连用，显示第二种封面 \\
+        coverbcolor & 绿色盲审封面 & contentsappend & 目录追加从文件内容flag \\
+        appendixtoc & 目录附录仅显示chapter级 & appendixrenewenv & 修改公式序号(A-n) \\
+        appendixchapter & 附录环境2 - 目录追加附录 & thankschapter[1] & 致谢环境 \\
+        abstracttocontents & 目录显示摘要部分 & subsecref\{label:ref\} & 引用原始小节号，如A \\
         \hline
     \end{tabular}
 \end{table}
 
-其中，abstract[2]表示接受两个参数；material必选一个参数，可选两个参数；其余，均无参数传递。
+其中，abstract[2]表示接受两个参数；material必选一个参数，可选两个参数；thankschapter[1]表示接受一个参数（一段文本）；subsecref接受label；其余，均无参数传递。
 
 \subsection{abstract}
 
@@ -204,6 +218,33 @@ git reset --hard HEAD^
 \end{material}
 \end{lstlisting}
 
+
+\subsection{thankschapter}
+
+建议以下形式使用：
+
+\lstset{
+    basicstyle = \small\ttfamily,
+    language = [LaTeX]{TeX},
+    commentstyle=\color{white} \bf,
+    backgroundcolor=\color{cyan},
+}
+\begin{lstlisting}
+\thankschapter{
+% 致谢内容
+}
+\end{lstlisting}
+
+
+\subsection{subsecref}
+
+对subsubsection起作用
+
+ref\{label\}，引用格式为1.1.1-A
+
+subsecref\{label\}，引用格式为A
+
+
 \section{排版布局}
 
 推荐以下排版布局：
@@ -217,7 +258,9 @@ git reset --hard HEAD^
 \begin{lstlisting}
 \documentclass{nuistthesis}
 
-\nuistthesisset{}               % 全局变量赋值
+\contentsappend           % 从contentsappend.txt导入目录追加内容（可选）
+
+\nuistthesisset{}         % 全局变量赋值
 
 \begin{document}
 
@@ -238,16 +281,28 @@ git reset --hard HEAD^
 
 % 参考文献
 \bibliographystyle{nuistbib}
+\addreferencetoctl          % 参考文献追加至目录，固定位置，否则页码错误
 \bibliography{sample}
-\addreferencetoctl                % 参考文献追加至目录，一定放在这里
 
 % 附录区
+% 下分两种使用方案（不可交错使用）
 \appendix
+
+% 附录样式1 -- 附录A、附录B...
 \chapter{}
+
+% 附录样式2 -- 附录: A、B...
+\appendixtoc \\             % 修改目录显示的深度，即仅显示“附录...”
+\appendixrenewenv \\        % 附录公式序号变为A-?，建议采用
+\appendixchapter            % 样式2起始
+
+\section{}
 
 % 附件区
 \backmatter
-\chapter{致\quad{}谢}
+\thankschapter{
+% 致谢内容，使用\blindtrial时，自动隐藏
+}
 \chapter{学生简介}
 
 \end{document}
@@ -259,6 +314,7 @@ git reset --hard HEAD^
 本示例使用的是最终提交论文的封面，且不显示合作导师。接下来，图\ref{fig:title}内子图展示“显示合作导师、“盲审封面”的情况。
 
 \begin{figure}[htbp!]
+    \centering
     \subfigure[使用\textbackslash comentor]{
         \begin{minipage}[t]{0.5 \linewidth}
             \centering
@@ -271,7 +327,14 @@ git reset --hard HEAD^
             \includegraphics[width = 1\linewidth, keepaspectratio]{figs/blindtrial}
         \end{minipage}
     }
-    \caption{两类封面示意图} \label{fig:title}
+    \\ 
+    \subfigure[使用\textbackslash blindtrial $\&$ \textbackslash btstyle]{
+        \begin{minipage}[t]{0.5 \linewidth}
+            \centering
+            \includegraphics[width = 1\linewidth, keepaspectratio]{figs/blindtrial2}
+        \end{minipage}
+    }
+    \caption{三类封面示意图} \label{fig:title}
 \end{figure}
 
 
@@ -287,7 +350,7 @@ git reset --hard HEAD^
 
 \backmatter
 
-\chapter{致\quad{}谢}
+\thankschapter{
 
 本模板的编写，离不开以下几个开源项目的帮助，特此鸣谢！
 
@@ -300,5 +363,6 @@ git reset --hard HEAD^
 \href{https://github.com/LirenW/NUIST_thesis_template_V2.0}{南京信息工程大学本科学位论文模板} 
 
 \href{http://mirrors.ibiblio.org/CTAN/language/chinese/ctex/ctex.pdf}{CTEX宏集手册} 
+}
 
 \end{document}
