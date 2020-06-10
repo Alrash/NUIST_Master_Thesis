@@ -4,7 +4,10 @@
 
 ## 特别说明
 
-这是一份不够稳定的论文模板
+这是一份不够稳定的论文模板  
+需求较新的ctex包，故请更新（winedt老版请更新）  
+linux与macOS用户请自行修正字体设置
+
 
 ## 文件说明
 
@@ -14,7 +17,7 @@ template\
     |- nuistbib.bst             # 参考文献样式，修改自南航论文模板
     |- nuistthesis.cls          # 样式文件
     |- STZhongsong.ttf          # 封面标题字体文件（华文中宋；windows系统自带，无请下载）
-    |- contentsappend.txt       # contentsappend开启时，该部分内容附加至目录尾部
+    |- contentsappend.tex       # contentsappend开启时，该部分内容附加至目录尾部
 ```
 
 ## 样例使用
